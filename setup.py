@@ -1,7 +1,10 @@
-from distutils.core import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 setup(
-    name = 'dandelion',
+    name = 'dandelion-eu',
     packages = ['dandelion'],
     version = '0.1',
     description = 'Connect to the dandelion.eu API in a very pythonic way!',
