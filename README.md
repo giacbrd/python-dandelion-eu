@@ -44,11 +44,11 @@ Retrieving entities from dandelion is easy, just instantiate a Datagem and itera
 
 ### Select fields
 
-If you want to reduce the network load, you can retrieve only the fields you will actually use with `values`:
+If you want to reduce the network load, you can retrieve only the fields you will actually use with `select`:
 
     >>> from dandelionimport Datagem
     >>> d = Datagem('datagem-slug')
-    >>> for obj in  d.objects.values('acheneID')[:10]:
+    >>> for obj in d.objects.select('acheneID')[:10]:
     ...     print obj
     ...
     {u'acheneID': u'http://dandelion.eu/resource/158dce3ea58cebda9a14a911cd7574f204f9de72'}
@@ -64,7 +64,7 @@ If you want to reduce the network load, you can retrieve only the fields you wil
     
 It is also possible to rename fields if you need to:
 
-    >>> for obj in  d.objects.values('acheneID', 'municipality.name AS "name"')[:10]:
+    >>> for obj in d.objects.select('acheneID', 'municipality.name AS "name"')[:10]:
     ...     print obj
     ...
     {u'acheneID': u'http://dandelion.eu/resource/158dce3ea58cebda9a14a911cd7574f204f9de72', u'name': u'Dresano'}
@@ -81,9 +81,9 @@ It is also possible to rename fields if you need to:
 
 ### Filter elements
 
-You can powerfully filter the result set with the `filter` method:
+You can powerfully filter the result set with the `where` method:
 
-    >>> for obj in  d.objects.filter(level=60)[:10]:
+    >>> for obj in d.objects.where(level=60)[:10]:
     ...     print obj['acheneID'], obj['level']
     ...
     http://dandelion.eu/resource/a7d36ba742d54e8a97f187cf3d33a3beb6043057 60
@@ -99,7 +99,7 @@ You can powerfully filter the result set with the `filter` method:
     
 More complex filters can be achieved with the `__` (dunder) operator:
 
-    >>> for obj in  d.objects.filter(level__lt=30)[:10]:
+    >>> for obj in d.objects.where(level__lt=30)[:10]:
     ...     print obj['acheneID'], obj['country']['name']
     ...
     http://dandelion.eu/resource/3058697c2d534d13b48f20e1d530dea1794d58b2 FRANCE
@@ -120,3 +120,27 @@ Available comparators are:
   * gte (greater-than-equals, `>=`)
   * gt  (greater-than, `>`)
   * not (not, `<>`)
+
+
+### Sort elements
+
+Sorting is easy as everything else, with the `sort` method:
+
+    >>> for obj in d.objects.select('acheneID').order('acheneID')[:5]:
+    ...     print obj['acheneID']
+    ...
+    http://dandelion.eu/resource/00017329d07750b26ffc0efb08c3a862b1898a0d
+    http://dandelion.eu/resource/00026440c06c9774bfbb08e770167c9ad09124a1
+    http://dandelion.eu/resource/0002abf01d8bdfcb13e5d01625c806ad2b3a06f3
+    http://dandelion.eu/resource/0002e35e46df47106976c746606cc7188d1a039e
+    http://dandelion.eu/resource/0003080a25b86105ba3f538b5d857b6a31b6646d
+
+
+    >>> for obj in d.objects.select('acheneID').order('acheneID DESC')[:5]:
+    ...     print obj['acheneID']
+    ...
+    http://dandelion.eu/resource/ffff40dff5241feb1ecc394e79bfd820d54d43d8
+    http://dandelion.eu/resource/ffff31c2ec23ff3a18da4804cdbd869c11120ca7
+    http://dandelion.eu/resource/fffb71883dbeaf8511f58a6d5260c5cb1c52be74
+    http://dandelion.eu/resource/fffb636f2df4a5be30e3d56da3df2dc388a534a5
+    http://dandelion.eu/resource/fffacd9ff1bdaca8107642a1048be2bef5796a53

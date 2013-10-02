@@ -37,7 +37,7 @@ class DatagemManager(object):
         self._step = 1
         self._stop = None
 
-    def filter(self, **kwargs):
+    def where(self, **kwargs):
         new_filter = ' AND '.join(
             self._parse_single_filter(key, value)
             for key, value in kwargs.items()
@@ -52,10 +52,14 @@ class DatagemManager(object):
         return self
 
     def get(self, **kwargs):
-        return self.filter(**kwargs).__iter__().next()
+        return self.where(**kwargs).__iter__().next()
 
-    def values(self, *args):
+    def select(self, *args):
         self.params['$select'] = ','.join(args)
+        return self
+
+    def order(self, *args):
+        self.params['$order'] = ','.join(args)
         return self
 
     def __iter__(self):
