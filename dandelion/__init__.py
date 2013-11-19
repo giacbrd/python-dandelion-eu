@@ -1,8 +1,9 @@
 """ main dandelion package
 """
 
-class DandelionException(Exception):
-    pass
+# TODO[sp] test!!!
+# TODO[sp] documentation!!!
 
-
-from datagem import *
+from base import DandelionException
+from dandelion.datagem import Datagem, DatagemManager
+from dandelion.datatxt import DataTXT

@@ -1,25 +1,20 @@
 """ dandelion datagem
 """
-import urlparse
-import requests
-
-from dandelion import DandelionException
+from dandelion.base import DandelionException, BaseDandelionRequest
 
 
-class Datagem(object):
+class Datagem(BaseDandelionRequest):
     """ a datagem, aka a source of data on dandelion
     """
     DANDELION_HOST = 'dandelion.eu'
+    REQUIRE_AUTH = False
 
-    def __init__(self, uid, host=None):
+    def __init__(self, uid, **kwargs):
         self.uid = uid
-        self.uri = self._get_uri(host=host)
+        super(Datagem, self).__init__(**kwargs)
 
-    def _get_uri(self, host=None):
-        base_uri = 'https://' + (host or self.DANDELION_HOST)
-        return urlparse.urljoin(
-            base_uri, '/'.join(['api', 'v1', 'datagem', self.uid, 'data.json'])
-        )
+    def _get_uri_tokens(self):
+        return 'api', 'v1', 'datagem', self.uid, 'data.json'
 
     @property
     def objects(self):
@@ -75,23 +70,16 @@ class DatagemManager(object):
                 self.PAGINATE_BY, self.params.get('$limit', self.PAGINATE_BY)
             )
             params['$offset'] = offset
-            response = requests.get(
-                self.datagem.uri,
-                params=params,
-                verify=False,
-            )
+            response = self.datagem.do_get(params)
 
-            if not response.ok:
-                raise DandelionException(response.json()['message'])
-
-            for obj in response.json():
+            for obj in response:
                 if returned % self._step == 0:
                     yield obj
                 returned += 1
                 if self._stop and returned >= self._stop:
                     raise StopIteration
 
-            if len(response.json()) < self.PAGINATE_BY:
+            if len(response) < self.PAGINATE_BY:
                 raise StopIteration
             offset += self.PAGINATE_BY
 
