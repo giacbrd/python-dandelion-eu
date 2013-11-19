@@ -56,6 +56,10 @@ class DatagemManager(object):
 
     def select(self, *args):
         self.params['$select'] = ','.join(args)
+        if any(param.startswith('count(') for param in args):
+            self.params['$group'] = ','.join(
+                param for param in args if not param.startswith('count(')
+            )
         return self
 
     def order(self, *args):
@@ -67,7 +71,9 @@ class DatagemManager(object):
         returned = 0
         while True:
             params = dict(self.params)
-            params['$limit'] = min(self.PAGINATE_BY, self.params.get('$limit', self.PAGINATE_BY))
+            params['$limit'] = min(
+                self.PAGINATE_BY, self.params.get('$limit', self.PAGINATE_BY)
+            )
             params['$offset'] = offset
             response = requests.get(
                 self.datagem.uri,
