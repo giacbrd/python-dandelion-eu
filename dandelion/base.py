@@ -43,6 +43,7 @@ class BaseDandelionRequest(object):
         self.uri = self._get_uri(host=kwargs.get('host'))
         self.app_id = kwargs.get('app_id')
         self.app_key = kwargs.get('app_key')
+        self.requests = requests.session()
 
         if self.REQUIRE_AUTH and not self.app_id:
             raise MissingParameterException("app_id")
@@ -54,7 +55,7 @@ class BaseDandelionRequest(object):
             params['$app_id'] = self.app_id
             params['$app_key'] = self.app_key
 
-        response = requests.get(
+        response = self.requests.get(
             url=self.uri + ''.join('/' + x for x in extra_url),
             params=params,
             verify=False,
