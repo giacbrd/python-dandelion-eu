@@ -4,6 +4,7 @@ import json
 import urlparse
 
 import requests
+from dandelion.cache.base import NoCache
 
 from dandelion.utils import AttributeDict
 
@@ -44,6 +45,7 @@ class BaseDandelionRequest(object):
         self.app_id = kwargs.get('app_id')
         self.app_key = kwargs.get('app_key')
         self.requests = requests.session()
+        self.cache = kwargs.get('cache', NoCache())
 
         if self.REQUIRE_AUTH and not self.app_id:
             raise MissingParameterException("app_id")
@@ -55,11 +57,19 @@ class BaseDandelionRequest(object):
             params['$app_id'] = self.app_id
             params['$app_key'] = self.app_key
 
-        response = self.requests.get(
-            url=self.uri + ''.join('/' + x for x in extra_url),
-            params=params,
-            verify=False,
+        url = self.uri + ''.join('/' + x for x in extra_url)
+
+        cache_key = self.cache.get_key_for(
+            url=url, params=params,
         )
+
+        if self.cache.contains_key(cache_key):
+            response = self.cache.get(cache_key)
+        else:
+            response = self.requests.get(
+                url=url, params=params, verify=False,
+            )
+            self.cache.set(cache_key, response)
 
         obj = json.loads(response.content, object_hook=AttributeDict)
         if not response.ok:
