@@ -6,15 +6,12 @@ from dandelion.base import DandelionException, BaseDandelionRequest
 class Datagem(BaseDandelionRequest):
     """ a datagem, aka a source of data on dandelion
     """
-    DANDELION_HOST = 'dandelion.eu'
-    REQUIRE_AUTH = False
-
     def __init__(self, uid, **kwargs):
         self.uid = uid
         super(Datagem, self).__init__(**kwargs)
 
     def _get_uri_tokens(self):
-        return 'api', 'v1', 'datagem', self.uid, 'data.json'
+        return 'datagem', self.uid, 'data/v1'
 
     @property
     def objects(self):
@@ -72,7 +69,7 @@ class DatagemManager(object):
             params['$offset'] = offset
             response = self.datagem.do_get(params)
 
-            for obj in response:
+            for obj in response['items']:
                 if returned % self._step == 0:
                     yield obj
                 returned += 1
