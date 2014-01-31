@@ -29,10 +29,8 @@ class DandelionException(BaseException):
             self.message = dandelion_obj.message
             self.code = dandelion_obj.code
             self.data = dandelion_obj.data
-        elif isinstance(dandelion_obj, basestring):
-            self.message = dandelion_obj
         else:
-            self.message = kwargs.get('message')
+            self.message = u"{}".format(dandelion_obj)
             self.code = kwargs.get('code')
             self.data = kwargs.get('data')
         super(DandelionException, self).__init__(self.message)

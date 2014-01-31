@@ -4,8 +4,8 @@ import os
 import warnings
 from unittest import TestCase
 
-from dandelion import Datagem, default_config, DatagemManager, \
-    DandelionException
+from dandelion import Datagem, default_config, DandelionException
+from dandelion.datagem import DatagemManager
 
 
 class TestDatagemBase(TestCase):
