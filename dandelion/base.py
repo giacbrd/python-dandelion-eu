@@ -9,6 +9,18 @@ from dandelion.cache.base import NoCache
 from dandelion.utils import AttributeDict
 
 
+class DandelionConfig(dict):
+    """ class for storing the default dandelion configuration, such
+     as authentication parameters
+    """
+    ALLOWED_KEYS = ['app_id', 'app_key']
+
+    def __setitem__(self, key, value):
+        if not key in self.ALLOWED_KEYS:
+            raise DandelionException('invalid config param: {}'.format(key))
+        super(DandelionConfig, self).__setitem__(key, value)
+
+
 class DandelionException(BaseException):
     error = True
 
@@ -41,9 +53,10 @@ class BaseDandelionRequest(object):
     REQUIRE_AUTH = True
 
     def __init__(self, **kwargs):
+        from dandelion import default_config
         self.uri = self._get_uri(host=kwargs.get('host'))
-        self.app_id = kwargs.get('app_id')
-        self.app_key = kwargs.get('app_key')
+        self.app_id = kwargs.get('app_id', default_config.get('app_id'))
+        self.app_key = kwargs.get('app_key', default_config.get('app_key'))
         self.requests = requests.session()
         self.cache = kwargs.get('cache', NoCache())
 

@@ -4,6 +4,8 @@
 # TODO[sp] test!!!
 # TODO[sp] documentation!!!
 
-from base import DandelionException
+from dandelion.base import DandelionException, DandelionConfig
 from dandelion.datagem import Datagem, DatagemManager
 from dandelion.datatxt import DataTXT
+
+default_config = DandelionConfig()
