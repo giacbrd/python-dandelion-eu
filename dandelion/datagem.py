@@ -1,11 +1,15 @@
 """ dandelion datagem
 """
+from __future__ import unicode_literals
+
+import warnings
 from dandelion.base import DandelionException, BaseDandelionRequest
 
 
 class Datagem(BaseDandelionRequest):
     """ a datagem, aka a source of data on dandelion
     """
+
     def __init__(self, uid, **kwargs):
         self.uid = uid
         super(Datagem, self).__init__(**kwargs)
@@ -14,7 +18,14 @@ class Datagem(BaseDandelionRequest):
         return 'datagem', self.uid, 'data/v1'
 
     @property
+    def items(self):
+        return DatagemManager(self)
+
+    @property
     def objects(self):
+        warnings.warn(
+            '"objects" is deprecated, use "items" instead', DeprecationWarning
+        )
         return DatagemManager(self)
 
     def _do_raw_request(self, url, params, **kwargs):
@@ -32,9 +43,11 @@ class DatagemManager(object):
         self.datagem = datagem
         self.params = {}
         self._step = 1
-        self._stop = None
 
     def where(self, **kwargs):
+        if not kwargs:
+            return self
+
         new_filter = ' AND '.join(
             self._parse_single_filter(key, value)
             for key, value in kwargs.items()
@@ -49,7 +62,10 @@ class DatagemManager(object):
         return self
 
     def get(self, **kwargs):
-        return self.where(**kwargs).__iter__().next()
+        try:
+            return self.where(**kwargs).__iter__().next()
+        except StopIteration:
+            raise DandelionException('The requested item does not exist')
 
     def select(self, *args):
         self.params['$select'] = ','.join(args)
@@ -66,40 +82,47 @@ class DatagemManager(object):
     def __iter__(self):
         offset = self.params.get('$offset', 0)
         returned = 0
+        actual_limit = self.params.get('$limit', None)
         while True:
             params = dict(self.params)
             params['$limit'] = min(
-                self.PAGINATE_BY, self.params.get('$limit', self.PAGINATE_BY)
+                self.PAGINATE_BY, actual_limit or self.PAGINATE_BY
             )
             params['$offset'] = offset
-            response = self.datagem.do_get(params)
+            response = self.datagem.do_request(params)
 
             for obj in response['items']:
                 if returned % self._step == 0:
                     yield obj
                 returned += 1
-                if self._stop and returned >= self._stop:
+                if actual_limit and returned >= actual_limit:
                     raise StopIteration
 
-            if len(response) < self.PAGINATE_BY:
+            if len(response['items']) < self.PAGINATE_BY:
                 raise StopIteration
             offset += self.PAGINATE_BY
 
     def __getitem__(self, item):
         if isinstance(item, int):
+            if item < 0:
+                raise TypeError('Negative indexes are not supported')
             self.params['$offset'] = item
             return self.get()
 
-        if not isinstance(item, slice):
-            raise TypeError("Invalid type {}".format(type(item)))
+        if not issubclass(type(item), slice):
+            raise TypeError("Invalid slice type: {}".format(type(item)))
 
         self.params['$offset'] = item.start if item.start else 0
-        self._stop = item.stop - self.params['$offset']
-        self._step = item.step if item.step else 1
-        self.params['$limit'] = self._stop
+        self.params['$limit'] = None if item.stop is None \
+            else item.stop - self.params['$offset']
+        self._step = item.step if item.step is not None else 1
 
-        if self._stop <= 0:
-            raise TypeError('Unsupported negative indexes')
+        if self.params['$offset'] < 0:
+            raise TypeError('Negative indexes are not supported')
+        if self.params['$limit'] is not None and self.params['$limit'] <= 0:
+            raise TypeError('Negative indexes are not supported')
+        if self._step <= 0:
+            raise TypeError('Non-positive step is not supported')
         return self
 
     @staticmethod
@@ -108,22 +131,26 @@ class DatagemManager(object):
         """
         if isinstance(value, basestring):
             value = '"%s"' % value
+        if value is None:
+            value = 'null'
 
         operator = '='
         tokens = key.split('__')
-        if len(tokens) > 2:
-            raise DandelionException("Invalid key operator")
-        if len(tokens) == 2:
-            key = tokens[0]
-            if tokens[1] == 'lte':
+        key_last_index = None
+        if len(tokens) > 1:
+            key_last_index = -1
+            if tokens[-1] == 'lte':
                 operator = '<='
-            elif tokens[1] == 'lt':
+            elif tokens[-1] == 'lt':
                 operator = '<'
-            elif tokens[1] == 'gt':
+            elif tokens[-1] == 'gt':
                 operator = '>'
-            elif tokens[1] == 'gte':
+            elif tokens[-1] == 'gte':
                 operator = '>='
-            elif tokens[1] == 'not':
+            elif tokens[-1] == 'not':
                 operator = '<>'
+            else:
+                key_last_index = None
 
+        key = '.'.join(tokens[:key_last_index])
         return '{} {} {}'.format(key, operator, value)
