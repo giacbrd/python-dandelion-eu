@@ -4,8 +4,8 @@ import json
 import urlparse
 
 import requests
-from dandelion.cache.base import NoCache
 
+from dandelion.cache.base import NoCache
 from dandelion.utils import AttributeDict
 
 
@@ -65,7 +65,7 @@ class BaseDandelionRequest(object):
         if self.REQUIRE_AUTH and not self.app_key:
             raise MissingParameterException("app_key")
 
-    def do_get(self, params, extra_url=''):
+    def do_request(self, params, extra_url='', **kwargs):
         if self.REQUIRE_AUTH:
             params['$app_id'] = self.app_id
             params['$app_key'] = self.app_key
@@ -79,10 +79,9 @@ class BaseDandelionRequest(object):
         if self.cache.contains_key(cache_key):
             response = self.cache.get(cache_key)
         else:
-            response = self.requests.get(
-                url=url, params=params, verify=False,
-            )
-            self.cache.set(cache_key, response)
+            response = self._do_raw_request(url, params, **kwargs)
+            if response.ok:
+                self.cache.set(cache_key, response)
 
         obj = json.loads(response.content, object_hook=AttributeDict)
         if not response.ok:
@@ -90,9 +89,16 @@ class BaseDandelionRequest(object):
         return obj
 
     def _get_uri(self, host=None):
-        base_uri = 'https://' + (host or self.DANDELION_HOST)
+        base_uri = host or self.DANDELION_HOST
+        if not base_uri.startswith('http'):
+            base_uri = 'https://' + base_uri
         return urlparse.urljoin(
             base_uri, '/'.join(self._get_uri_tokens())
+        )
+
+    def _do_raw_request(self, url, params, **kwargs):
+        return self.requests.post(
+            url=url, data=params, **kwargs
         )
 
     def _get_uri_tokens(self):

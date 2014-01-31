@@ -17,6 +17,11 @@ class Datagem(BaseDandelionRequest):
     def objects(self):
         return DatagemManager(self)
 
+    def _do_raw_request(self, url, params, **kwargs):
+        return self.requests.get(
+            url=url, params=params, **kwargs
+        )
+
 
 class DatagemManager(object):
     """ an object responsible for retrieving data form a datagem
