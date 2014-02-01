@@ -2,7 +2,7 @@ import os
 
 try:
     import cPickle as pickle
-except ImportError:
+except ImportError:  # pragma: no cover
     import pickle
 
 from dandelion.cache import NoCache

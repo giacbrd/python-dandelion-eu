@@ -6,7 +6,7 @@ class NoCache(object):
         return False
 
     def get(self, key):
-        raise NotImplemented
+        raise NotImplementedError
 
     def set(self, key, value):
         pass
