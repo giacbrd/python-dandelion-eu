@@ -1,8 +1,12 @@
 """ base classes
 """
-import json
-import urlparse
+from __future__ import unicode_literals
+try:
+    import urlparse
+except ImportError:
+    from urllib import parse as urlparse
 
+import json
 import requests
 
 from dandelion.cache.base import NoCache
@@ -30,7 +34,7 @@ class DandelionException(BaseException):
             self.code = dandelion_obj.code
             self.data = dandelion_obj.data
         else:
-            self.message = u"{}".format(dandelion_obj)
+            self.message = "{}".format(dandelion_obj)
             self.code = kwargs.get('code')
             self.data = kwargs.get('data')
         super(DandelionException, self).__init__(self.message)

@@ -77,7 +77,7 @@ class TestAttributeDict(TestCase):
 
         del obj.name
         with self.assertRaises(KeyError):
-            print obj.name
+            print(obj.name)
 
 
 class TestBaseClass(TestCase):
