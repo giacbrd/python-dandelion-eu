@@ -25,7 +25,7 @@ class FileCache(NoCache):
         return os.path.isfile(self._get_filename_for(key))
 
     def get(self, key):
-        with open(self._get_filename_for(key)) as fin:
+        with open(self._get_filename_for(key), 'rb') as fin:
             return pickle.load(fin)
 
     def set(self, key, value):

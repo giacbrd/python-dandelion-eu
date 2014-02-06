@@ -1,2 +1,2 @@
-from base import *
-from file import *
+from .base import *
+from .file import *

@@ -15,6 +15,7 @@ setup(
     keywords = ['api', 'dandelion'],
     install_requires=[
         'requests',
+        'six',
     ],
     classifiers = [],
 )

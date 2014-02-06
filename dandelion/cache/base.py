@@ -1,4 +1,5 @@
 import hashlib
+import six
 
 
 class NoCache(object):
@@ -16,4 +17,6 @@ class NoCache(object):
         input_s = ''
         for key in sorted(kwargs):
             input_s += '{}={},'.format(key, kwargs[key])
+        if isinstance(input_s, six.text_type):
+            input_s = input_s.encode('utf-8')
         return hashlib.sha1(input_s).hexdigest()

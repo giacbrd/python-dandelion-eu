@@ -3,6 +3,8 @@
 from __future__ import unicode_literals
 
 import warnings
+import six
+
 from dandelion.base import DandelionException, BaseDandelionRequest
 
 
@@ -63,7 +65,7 @@ class DatagemManager(object):
 
     def get(self, **kwargs):
         try:
-            return self.where(**kwargs).__iter__().next()
+            return next(self.where(**kwargs).__iter__())
         except StopIteration:
             raise DandelionException('The requested item does not exist')
 
@@ -129,7 +131,7 @@ class DatagemManager(object):
     def _parse_single_filter(key, value):
         """ prepare a value for being used in the api
         """
-        if isinstance(value, basestring):
+        if isinstance(value, six.string_types):
             value = '"%s"' % value
         if value is None:
             value = 'null'

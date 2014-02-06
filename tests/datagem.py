@@ -204,7 +204,7 @@ class TestDatagem(TestDatagemBase):
             with self.assertRaises(TypeError) as context:
                 list(self.datagem.items[the_slice])
             self.assertEqual(
-                context.exception.message,
+                str(context.exception),
                 "Invalid slice type: {}".format(type(the_slice))
             )
 
@@ -212,7 +212,7 @@ class TestDatagem(TestDatagemBase):
             with self.assertRaises(TypeError) as context:
                 list(self.datagem.items[the_slice])
             self.assertEqual(
-                context.exception.message,
+                str(context.exception),
                 'Negative indexes are not supported'
             )
 
@@ -220,7 +220,7 @@ class TestDatagem(TestDatagemBase):
             with self.assertRaises(TypeError) as context:
                 list(self.datagem.items[the_slice])
             self.assertEqual(
-                context.exception.message,
+                str(context.exception),
                 'Non-positive step is not supported'
             )
 
@@ -229,7 +229,7 @@ class TestDatagem(TestDatagemBase):
             list(self.datagem.items[-1])
 
         self.assertEqual(
-            context.exception.message,
+            str(context.exception),
             "Negative indexes are not supported"
         )
 

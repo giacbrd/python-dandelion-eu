@@ -85,7 +85,7 @@ class BaseDandelionRequest(object):
             if response.ok:
                 self.cache.set(cache_key, response)
 
-        obj = json.loads(response.content, object_hook=AttributeDict)
+        obj = response.json(object_hook=AttributeDict)
         if not response.ok:
             raise DandelionException(obj)
         return obj
