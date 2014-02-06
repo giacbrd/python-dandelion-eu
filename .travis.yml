@@ -7,7 +7,7 @@ install:
 - pip install .
 - pip install -r requirements-dev.txt
 - pip install coveralls
-script: coverage run --source=. --branch `which nosetests` tests/*
+script: coverage run --source=dandelion --branch `which nosetests` tests/*
 env:
   global:
   - secure: R/fXB/RCiSBEjJFXnPsX3b++j0J+oS4V+7nX+GCENiIha1rnL9iwY42PVY6LxKiBEi/3rLOm4fchk/W+v2+0BP4ULbTTtH13CmXtLMIr+SVCAI03E6rMppUOp+zpLnUahSeufhQYPwgq12Bl9lYJN5p8uis4D6N2gdCHwJjG4CA=
