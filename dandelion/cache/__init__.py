@@ -1,2 +1,2 @@
-from base import NoCache
-from file import FileCache
+from dandelion.cache.base import NoCache
+from dandelion.cache.file import FileCache
