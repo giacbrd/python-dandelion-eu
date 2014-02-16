@@ -3,8 +3,6 @@ from tempfile import mkdtemp
 from shutil import rmtree
 from unittest import TestCase
 
-from mock import MagicMock
-
 from dandelion.cache import FileCache
 from .base import CacheBaseMixin, FakeDandelionRequest
 
