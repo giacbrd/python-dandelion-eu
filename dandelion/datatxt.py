@@ -7,6 +7,8 @@ class DataTXT(BaseDandelionRequest):
     """ class for accessing the dataTXT family
     """
     def nex(self, text, **params):
+        if 'min_confidence' not in params:
+            params['min_confidence'] = 0.6
         return self.do_request(
             dict(params, text=text), ('nex', 'v1')
         )
