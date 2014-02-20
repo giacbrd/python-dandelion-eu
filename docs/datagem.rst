@@ -110,7 +110,7 @@ The available comparators are:
 Sort entities
 -------------
 
-Sorting is easy as everything else, with the ``sort`` method::
+Sorting is easy as everything else, with the ``order`` method::
 
     >>> for obj in d.items.select('acheneID').order('acheneID')[:5]:
     ...     print(obj.acheneID)
