@@ -6,8 +6,6 @@ try:
 except ImportError:
     from urllib import parse as urlparse
 
-import requests
-
 from dandelion.cache.base import NoCache
 from dandelion.utils import AttributeDict
 
@@ -54,6 +52,7 @@ class BaseDandelionRequest(object):
     REQUIRE_AUTH = True
 
     def __init__(self, **kwargs):
+        import requests
         from dandelion import default_config
         self.uri = self._get_uri(host=kwargs.get('host'))
         self.app_id = kwargs.get('app_id', default_config.get('app_id'))

@@ -1,5 +1,4 @@
 import hashlib
-import six
 
 
 class NoCache(object):
@@ -14,6 +13,7 @@ class NoCache(object):
 
     @staticmethod
     def get_key_for(**kwargs):
+        import six
         input_s = ''
         for key in sorted(kwargs):
             input_s += '{}={},'.format(key, kwargs[key])

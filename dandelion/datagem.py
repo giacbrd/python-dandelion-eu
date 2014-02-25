@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 import warnings
-import six
 
 from dandelion.base import DandelionException, BaseDandelionRequest
 
@@ -131,6 +130,7 @@ class DatagemManager(object):
     def _parse_single_filter(key, value):
         """ prepare a value for being used in the api
         """
+        import six
         if isinstance(value, six.string_types):
             value = '"%s"' % value
         if value is None:
