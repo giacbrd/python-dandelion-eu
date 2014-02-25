@@ -6,7 +6,6 @@ try:
 except ImportError:
     from urllib import parse as urlparse
 
-import json
 import requests
 
 from dandelion.cache.base import NoCache
@@ -99,8 +98,14 @@ class BaseDandelionRequest(object):
         )
 
     def _do_raw_request(self, url, params, **kwargs):
+        from dandelion import __version__
+
+        headers = kwargs.pop('headers', {})
+        headers['User-Agent'] = headers.get(
+            'User-Agent', 'python-dandelion-eu/' + __version__
+        )
         return self.requests.post(
-            url=url, data=params, **kwargs
+            url=url, data=params, headers=headers, **kwargs
         )
 
     def _get_uri_tokens(self):
