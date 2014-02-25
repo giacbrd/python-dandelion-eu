@@ -3,19 +3,25 @@ try:
 except ImportError:
     from distutils.core import setup
 
+from dandelion import VERSION
+
 with open('README.rst') as f:
     readme = f.read()
 
 setup(
     name='dandelion-eu',
-    packages=['dandelion'],
-    version='0.2.0',
+    packages=[
+        'dandelion',
+        'dandelion.cache',
+    ],
+    version=VERSION,
     description='Connect to the dandelion.eu API in a very pythonic way!',
     long_description=readme,
     author='SpazioDati s.r.l.',
     author_email='parmesan@spaziodati.eu',
     url='https://github.com/SpazioDati/python-dandelion-eu',
-    download_url='https://github.com/SpazioDati/python-dandelion-eu/tarball/0.2.0',
+    download_url='https://github.com/SpazioDati/'
+                 'python-dandelion-eu/tarball/' + VERSION,
     keywords=['api', 'dandelion'],
     install_requires=[
         'requests',
