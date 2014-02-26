@@ -1,14 +1,16 @@
-.. image:: https://travis-ci.org/SpazioDati/python-dandelion-eu.png?branch=master
+.. image:: https://travis-ci.org/SpazioDati/python-dandelion-eu.png?branch=develop
   :target: https://travis-ci.org/SpazioDati/python-dandelion-eu
 
-.. image:: https://coveralls.io/repos/SpazioDati/python-dandelion-eu/badge.png?branch=master
-  :target: https://coveralls.io/r/SpazioDati/python-dandelion-eu?branch=master
+.. image:: https://coveralls.io/repos/SpazioDati/python-dandelion-eu/badge.png?branch=develop
+  :target: https://coveralls.io/r/SpazioDati/python-dandelion-eu?branch=develop
 
-.. image:: https://pypip.in/v/dandelion-eu/badge.png
+.. 
+    image:: https://pypip.in/v/dandelion-eu/badge.png
     :target: https://crate.io/packages/dandelion-eu/
     :alt: Latest PyPI version
 
-.. image:: https://pypip.in/d/dandelion-eu/badge.png
+.. 
+    image:: https://pypip.in/d/dandelion-eu/badge.png
     :target: https://crate.io/packages/dandelion-eu/
     :alt: Number of PyPI downloads
 
@@ -17,8 +19,8 @@
 .. _dandelion: https://dandelion.eu/accounts/register/?next=/
 .. _dandelion.eu: http://dandelion.eu/
 
-python-dandelion
-================
+python-dandelion-eu
+===================
 
 Bring the power of the dandelion.eu_ semantic and datagem API to your python applications and scripts!
 Semantic in python couldn't be easier.
