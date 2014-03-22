@@ -29,11 +29,6 @@ class Datagem(BaseDandelionRequest):
         )
         return DatagemManager(self)
 
-    def _do_raw_request(self, url, params, **kwargs):
-        return self.requests.get(
-            url=url, params=params, **kwargs
-        )
-
 
 class DatagemManager(object):
     """ an object responsible for retrieving data form a datagem
@@ -90,7 +85,7 @@ class DatagemManager(object):
                 self.PAGINATE_BY, actual_limit or self.PAGINATE_BY
             )
             params['$offset'] = offset
-            response = self.datagem.do_request(params)
+            response = self.datagem.do_request(params, method='get')
 
             for obj in response['items']:
                 if returned % self._step == 0:

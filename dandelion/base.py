@@ -65,7 +65,7 @@ class BaseDandelionRequest(object):
         if self.REQUIRE_AUTH and not self.app_key:
             raise MissingParameterException("app_key")
 
-    def do_request(self, params, method='post', extra_url='', **kwargs):
+    def do_request(self, params, extra_url='', method='post', **kwargs):
         if self.REQUIRE_AUTH:
             params['$app_id'] = self.app_id
             params['$app_key'] = self.app_key
@@ -104,7 +104,7 @@ class BaseDandelionRequest(object):
         kwargs['headers']['User-Agent'] = kwargs['headers'].get(
             'User-Agent', 'python-dandelion-eu/' + __version__
         )
-        return self.requests.post(**kwargs)
+        return getattr(self.requests, method)(**kwargs)
 
     def _get_uri_tokens(self):
         raise NotImplementedError
