@@ -65,7 +65,7 @@ class BaseDandelionRequest(object):
         if self.REQUIRE_AUTH and not self.app_key:
             raise MissingParameterException("app_key")
 
-    def do_request(self, params, extra_url='', **kwargs):
+    def do_request(self, params, method='post', extra_url='', **kwargs):
         if self.REQUIRE_AUTH:
             params['$app_id'] = self.app_id
             params['$app_key'] = self.app_key
@@ -73,13 +73,13 @@ class BaseDandelionRequest(object):
         url = self.uri + ''.join('/' + x for x in extra_url)
 
         cache_key = self.cache.get_key_for(
-            url=url, params=params,
+            url=url, params=params, method=method
         )
 
         if self.cache.contains_key(cache_key):
             response = self.cache.get(cache_key)
         else:
-            response = self._do_raw_request(url, params, **kwargs)
+            response = self._do_raw_request(url, params, method, **kwargs)
             if response.ok:
                 self.cache.set(cache_key, response)
 
@@ -96,16 +96,15 @@ class BaseDandelionRequest(object):
             base_uri, '/'.join(self._get_uri_tokens())
         )
 
-    def _do_raw_request(self, url, params, **kwargs):
+    def _do_raw_request(self, url, params, method, **kwargs):
         from dandelion import __version__
-
-        headers = kwargs.pop('headers', {})
-        headers['User-Agent'] = headers.get(
+        kwargs['data' if method in ('post', 'put') else 'params'] = params
+        kwargs['url'] = url
+        kwargs['headers'] = kwargs.pop('headers', {})
+        kwargs['headers']['User-Agent'] = kwargs['headers'].get(
             'User-Agent', 'python-dandelion-eu/' + __version__
         )
-        return self.requests.post(
-            url=url, data=params, headers=headers, **kwargs
-        )
+        return self.requests.post(**kwargs)
 
     def _get_uri_tokens(self):
         raise NotImplementedError
