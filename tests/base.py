@@ -116,7 +116,8 @@ class TestBaseClass(TestCase):
 
             _do_raw_request.assert_called_once_with(
                 'https://api.dandelion.eu',
-                {'foo': 'bar', '$app_id': 'aa', '$app_key': 'bb'}
+                {'foo': 'bar', '$app_id': 'aa', '$app_key': 'bb'},
+                'post'
             )
 
     def test_authentication_not_required(self):
@@ -127,5 +128,5 @@ class TestBaseClass(TestCase):
             obj.do_request(params=dict(foo='bar'))
 
             _do_raw_request.assert_called_once_with(
-                'https://api.dandelion.eu', dict(foo='bar')
+                'https://api.dandelion.eu', dict(foo='bar'), 'post'
             )

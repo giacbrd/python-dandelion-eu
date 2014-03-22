@@ -32,7 +32,7 @@ class FakeDandelionRequest(BaseDandelionRequest):
             *args, **kwargs
         )
 
-    def _do_raw_request(self, url, params, **kwargs):
+    def _do_raw_request(self, url, params, method, **kwargs):
         self.last_cache_status = 'miss'
         return FakeResponse(ok=True, content=json.dumps(
             dict(url=url, params=params)
