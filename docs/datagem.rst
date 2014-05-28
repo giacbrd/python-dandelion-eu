@@ -130,3 +130,16 @@ Sorting is easy as everything else, with the ``order`` method::
     http://dandelion.eu/resource/fffb71883dbeaf8511f58a6d5260c5cb1c52be74
     http://dandelion.eu/resource/fffb636f2df4a5be30e3d56da3df2dc388a534a5
     http://dandelion.eu/resource/fffacd9ff1bdaca8107642a1048be2bef5796a53
+
+
+Get the datagem version
+-----------------------
+
+Each datagem comes with a version that can be used to check whether the
+data changed from the last query. This is available on the datagem itself:
+
+    >>> d.version
+    'b882dee6af3597804f2ed48bd27da798d3f114e6'
+
+Please notice that calling ``d.version`` will effectively submit a query
+to dandelion.eu, but the version itself will be cached for future calls.
