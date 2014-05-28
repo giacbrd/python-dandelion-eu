@@ -13,10 +13,17 @@ class Datagem(BaseDandelionRequest):
 
     def __init__(self, uid, **kwargs):
         self.uid = uid
+        self._version = None
         super(Datagem, self).__init__(**kwargs)
 
     def _get_uri_tokens(self):
         return 'datagem', self.uid, 'data/v1'
+
+    @property
+    def version(self):
+        if self._version is None:
+            self._version = self.items.meta['version']
+        return self._version
 
     @property
     def items(self):
@@ -39,6 +46,7 @@ class DatagemManager(object):
         self.datagem = datagem
         self.params = {}
         self._step = 1
+        self._meta = None
 
     def where(self, **kwargs):
         if not kwargs:
@@ -86,6 +94,10 @@ class DatagemManager(object):
             )
             params['$offset'] = offset
             response = self.datagem.do_request(params, method='get')
+            self._meta = {
+                'version': response['datagem-version'],
+                'count': response['count']
+            }
 
             for obj in response['items']:
                 if returned % self._step == 0:
@@ -151,3 +163,10 @@ class DatagemManager(object):
 
         key = '.'.join(tokens[:key_last_index])
         return '{} {} {}'.format(key, operator, value)
+
+    @property
+    def meta(self):
+        if self._meta is None:
+            # this will send a request and populate the metadata
+            list(self.select('acheneID')[:1])
+        return dict(self._meta)  # return a copy of the metadata

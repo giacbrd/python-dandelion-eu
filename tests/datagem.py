@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import os
 import warnings
 from unittest import TestCase
+from datetime import datetime
 
 from dandelion import Datagem, default_config, DandelionException
 from dandelion.datagem import DatagemManager
@@ -232,6 +233,16 @@ class TestDatagem(TestDatagemBase):
             str(context.exception),
             "Negative indexes are not supported"
         )
+
+    def test_version(self):
+        now = datetime.now()
+        self.assertIsNotNone(self.datagem.version)
+        self.assertGreater((datetime.now() - now).total_seconds(), 0.3)
+        self.assertLess((datetime.now() - now).total_seconds(), 1.0)
+
+        now = datetime.now()
+        self.assertEqual(len(self.datagem.version), 40)
+        self.assertLess((datetime.now() - now).total_seconds(), 0.01)
 
 
 class TestDeprecatedCode(TestDatagemBase):
