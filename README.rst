@@ -4,11 +4,11 @@
 .. image:: https://coveralls.io/repos/SpazioDati/python-dandelion-eu/badge.png?branch=master
   :target: https://coveralls.io/r/SpazioDati/python-dandelion-eu?branch=develop
 
-.. image:: https://pypip.in/v/dandelion-eu/badge.png
+.. image:: https://img.shields.io/pypi/v/dandelion-eu.svg
     :target: https://crate.io/packages/dandelion-eu/
     :alt: Latest PyPI version
 
-.. image:: https://pypip.in/d/dandelion-eu/badge.png
+.. image:: https://img.shields.io/pypi/dm/dandelion-eu.svg
     :target: https://crate.io/packages/dandelion-eu/
     :alt: Number of PyPI downloads
 
