@@ -103,6 +103,10 @@ class BaseDandelionRequest(object):
             else:
                 raise DandelionException('Error in authentication mechanism!')
 
+        top_ents = params.get('top_entities')
+        if top_ents is not None and (not isinstance(top_ents,(int,long)) or top_ents < 0):
+            raise DandelionException('The \'top-entities\' parameter must be an integer greater than or equal to 0')
+
         url = self.uri + ''.join('/' + x for x in extra_url)
 
         cache_key = self.cache.get_key_for(
