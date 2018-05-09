@@ -2,10 +2,10 @@ from __future__ import unicode_literals
 
 import os
 import warnings
-from unittest import TestCase
 from datetime import datetime
+from unittest import TestCase
 
-from dandelion import Datagem, default_config, DandelionException
+from dandelion import DandelionException, Datagem, default_config
 from dandelion.datagem import DatagemManager
 
 
@@ -32,7 +32,7 @@ class TestDatagem(TestDatagemBase):
             acheneID=self._achene('05a192433bede90cd0f12652b1a12c428cb253d5')
         ):
             self.assertEqual(
-                item, dict(name='Trento', population={'2011': 114063})
+                item, dict(name='Trento', population={"2001": None, "2011": 114063})
             )
 
     def test_select_concat(self):
@@ -41,7 +41,7 @@ class TestDatagem(TestDatagemBase):
             acheneID=self._achene('05a192433bede90cd0f12652b1a12c428cb253d5')
         ):
             self.assertEqual(
-                item, dict(population={'2011': 114063})
+                item, dict(population={"2001": None, "2011": 114063})
             )
 
     def test_select_empty(self):

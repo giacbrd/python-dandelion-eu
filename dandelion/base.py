@@ -1,23 +1,26 @@
 """ base classes
 """
 from __future__ import unicode_literals
+
+import requests
+
+from dandelion.cache.base import NoCache
+from dandelion.utils import AttributeDict
+
 try:
     import urlparse
 except ImportError:
     from urllib import parse as urlparse
-
-from dandelion.cache.base import NoCache
-from dandelion.utils import AttributeDict
 
 
 class DandelionConfig(dict):
     """ class for storing the default dandelion configuration, such
      as authentication parameters
     """
-    ALLOWED_KEYS = ['token','app_id', 'app_key']
+    ALLOWED_KEYS = ['token', 'app_id', 'app_key']
 
     def __setitem__(self, key, value):
-        if not key in self.ALLOWED_KEYS:
+        if key not in self.ALLOWED_KEYS:
             raise DandelionException('invalid config param: {}'.format(key))
         super(DandelionConfig, self).__setitem__(key, value)
 
@@ -40,14 +43,14 @@ class DandelionException(BaseException):
 class MissingParameterException(DandelionException):
     def __init__(self, mode):
         super(MissingParameterException, self).__init__(
-            "To use the legacy authentication system you have to specify both 'app_id' and 'app_key'"+mode+"!"
+            'To use the legacy authentication system you have to specify both \'app_id\' and \'app_key\''+mode+'!'
         )
 
 
 class TooManyParametersException(DandelionException):
     def __init__(self, mode):
         super(TooManyParametersException, self).__init__(
-            "Too many authentication parameters"+mode+", you have to specify 'token' OR 'app_id' and 'app_key'!"
+            'Too many authentication parameters'+mode+', you have to specify \'token\' OR \'app_id\' and \'app_key\'!'
         )
 
 
@@ -55,29 +58,24 @@ class BaseDandelionRequest(object):
     DANDELION_HOST = 'api.dandelion.eu'
     REQUIRE_AUTH = True
 
-    def __init__(self, **kwargs):
-        import requests
+    def __init__(self, host=None, cache=NoCache(), token=None, app_id=None, app_key=None, **kwargs):
         from dandelion import default_config
-        self.uri = self._get_uri(host=kwargs.get('host'))
+        self.uri = self._get_uri(host=host)
         self.requests = requests.session()
-        self.cache = kwargs.get('cache', NoCache())
+        self.cache = cache
 
         if self.REQUIRE_AUTH:
             self.auth = ''
 
-            token = kwargs.get('token')
-            app_id = kwargs.get('app_id')
-            app_key = kwargs.get('app_key')
-
-            if not self.__check_authentication_parameters(token, app_id, app_key,''):
+            if not self._check_authentication_parameters(token, app_id, app_key, ''):
                 token = default_config.get('token')
                 app_id = default_config.get('app_id')
                 app_key = default_config.get('app_key')
 
-                if not self.__check_authentication_parameters(token, app_id, app_key,' (in default config)'):
+                if not self._check_authentication_parameters(token, app_id, app_key, ' (in default config)'):
                     raise DandelionException('You have to specify the authentication token OR the app_id and app_key!')
 
-    def __check_authentication_parameters(self,token,app_id,app_key,mode):
+    def _check_authentication_parameters(self, token, app_id, app_key, mode):
         if token:
             if not app_id and not app_key:
                 self.auth = 'token'

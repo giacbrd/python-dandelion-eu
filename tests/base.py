@@ -1,5 +1,5 @@
 """ tests can be run from the root dir with:
-clean-pyc && \
+clean-pyc &&
 APP_ID= APP_KEY= coverage run --source=. --branch `which nosetests` tests/* &&\
 coverage html
 """
@@ -8,7 +8,7 @@ from unittest import TestCase
 
 from mock import patch
 
-from dandelion import Datagem, DandelionException, DataTXT, default_config
+from dandelion import DandelionException, Datagem, DataTXT, default_config
 from dandelion.base import BaseDandelionRequest
 from dandelion.utils import AttributeDict
 
@@ -27,7 +27,7 @@ class TestDefaultConfiguration(TestCase):
             Datagem('administrative-regions')
 
         self.assertEqual(
-            context.exception.message, 'Param "app_key" is required'
+            context.exception.message, 'To use the legacy authentication system you have to specify both \'app_id\' and \'app_key\' (in default config)!'
         )
 
     def test_can_set_app_key(self):
@@ -37,20 +37,20 @@ class TestDefaultConfiguration(TestCase):
             Datagem('administrative-regions')
 
         self.assertEqual(
-            context.exception.message, 'Param "app_id" is required'
+            context.exception.message, 'To use the legacy authentication system you have to specify both \'app_id\' and \'app_key\' (in default config)!'
         )
 
     def test_can_authenticate(self):
         with self.assertRaises(DandelionException) as context:
             Datagem('administrative-regions')
         self.assertEqual(
-            context.exception.message, 'Param "app_id" is required'
+            context.exception.message, 'You have to specify the authentication token OR the app_id and app_key!'
         )
 
         with self.assertRaises(DandelionException) as context:
             DataTXT()
         self.assertEqual(
-            context.exception.message, 'Param "app_id" is required'
+            context.exception.message, 'You have to specify the authentication token OR the app_id and app_key!'
         )
 
         default_config['app_id'] = os.environ['APP_ID']
@@ -103,7 +103,7 @@ class TestBaseClass(TestCase):
             self._make_class(require_auth=True, implement_abstract=True)()
 
         self.assertEqual(
-            context.exception.message, 'Param "app_id" is required'
+            context.exception.message, 'You have to specify the authentication token OR the app_id and app_key!'
         )
 
         obj = self._make_class(require_auth=True, implement_abstract=True)(

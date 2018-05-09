@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import os
 from unittest import TestCase
 
-from dandelion import DataTXT, default_config, DandelionException
+from dandelion import DandelionException, DataTXT, default_config
 
 
 class TestDatatxt(TestCase):

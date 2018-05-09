@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 import warnings
 
-from dandelion.base import DandelionException, BaseDandelionRequest
+from dandelion.base import BaseDandelionRequest, DandelionException
 
 
 class Datagem(BaseDandelionRequest):
