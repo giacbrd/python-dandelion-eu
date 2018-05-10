@@ -35,23 +35,7 @@ class DandelionException(BaseException):
             self.data = dandelion_obj.data
         else:
             self.message = "{}".format(dandelion_obj)
-            self.code = kwargs.get('code')
-            self.data = kwargs.get('data')
         super(DandelionException, self).__init__(self.message)
-
-
-class MissingParameterException(DandelionException):
-    def __init__(self, mode):
-        super(MissingParameterException, self).__init__(
-            'To use the legacy authentication system you have to specify both \'app_id\' and \'app_key\''+mode+'!'
-        )
-
-
-class TooManyParametersException(DandelionException):
-    def __init__(self, mode):
-        super(TooManyParametersException, self).__init__(
-            'Too many authentication parameters'+mode+', you have to specify \'token\' OR \'app_id\' and \'app_key\'!'
-        )
 
 
 class BaseDandelionRequest(object):
@@ -82,7 +66,7 @@ class BaseDandelionRequest(object):
                 self.token = token
                 return True
             else:
-                raise TooManyParametersException(mode)
+                raise DandelionException('Too many authentication parameters'+mode+', you have to specify \'token\' OR \'app_id\' and \'app_key\'!')
         else:
             if app_id and app_key:
                 self.auth = 'legacy'
@@ -90,7 +74,7 @@ class BaseDandelionRequest(object):
                 self.app_key = app_key
                 return True
             elif app_id or app_key:
-                raise MissingParameterException(mode)
+                raise DandelionException('To use the legacy authentication system you have to specify both \'app_id\' and \'app_key\''+mode+'!')
         return False
 
     def do_request(self, params, extra_url='', method='post', **kwargs):
@@ -102,10 +86,6 @@ class BaseDandelionRequest(object):
                 params['$app_key'] = self.app_key
             else:
                 raise DandelionException('Error in authentication mechanism!')
-
-        top_ents = params.get('top_entities')
-        if top_ents is not None and (not isinstance(top_ents,(int,long)) or top_ents < 0):
-            raise DandelionException('The \'top-entities\' parameter must be an integer greater than or equal to 0')
 
         url = self.uri + ''.join('/' + x for x in extra_url)
 
