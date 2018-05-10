@@ -22,22 +22,22 @@
 python-dandelion-eu
 ===================
 
-===================
-=======
-Bring the power of the dandelion.eu_ semantic and datagem API to your python applications and scripts!
+Bring the power of the dandelion.eu_ Datagem, DataTXT and Sentiment API to your python applications and scripts!
 Semantic in python couldn't be easier.
 
 
 .. code-block:: py
 
     >>> from dandelion import DataTXT
-    >>> datatxt = DataTXT(app_id='YOUR_APP_ID', app_key='YOUR_APP_KEY')
+    >>> datatxt = DataTXT(token='YOUR_TOKEN')
     >>> response = datatxt.nex('The doctor says an apple is better than an orange')
     >>> for annotation in response.annotations:
           print annotation
     ...
 
-Register on dandelion_ to obtain your authentication keys and enrich your application with our semantic intelligence.
+Register on dandelion_ to obtain your authentication token and enrich your application with our semantic intelligence.
+
+NOTE: the client still supports the legacy authentication system through ``app_id`` and ``app_key``.
 
 Installation
 ------------

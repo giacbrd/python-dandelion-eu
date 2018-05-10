@@ -1,7 +1,5 @@
-:title:
-    The dataTXT API
-
 .. _SpazioDati: http://www.spaziodati.eu
+.. _check here which ones are supported: https://dandelion.eu/docs/api/datatxt/nex/v1/#param-lang
 .. _dataTXT-NEX documentation on dandelion.eu: https://dandelion.eu/docs/api/datatxt/nex/v1/
 .. _dataTXT-SIM documentation on dandelion.eu: https://dandelion.eu/docs/api/datatxt/sim/v1/
 .. _dataTXT-LI documentation on dandelion.eu: https://dandelion.eu/docs/api/datatxt/li/v1/
@@ -13,16 +11,16 @@ dataTXT is a family of semantic services developed by SpazioDati_. All its
 methods are available in the same class::
 
    >>> from dandelion import DataTXT
-   >>> datatxt = DataTXT(app_id='', app_key='')
+   >>> datatxt = DataTXT(token='')
 
 
 NEX: Named Entity Extraction
 ----------------------------
 dataTXT-NEX is a named entity extraction & linking API that performs very well
 even on short texts, on which many other similar services do not. dataTXT-NEX
-currently works on Italian and English texts. With this API you will be able
-to automatically tag your texts, extracting Wikipedia entities and enriching
-your data.
+currently works on various languages (`check here which ones are supported`_).
+With this API you will be able to automatically tag your texts, extracting Wikipedia
+entities and enriching your data.
 
 You can extract annotated entities with::
 
@@ -42,7 +40,7 @@ Additional parameters can be specified simply by::
      'http://dbpedia.org/resource/Open_source']
 
 Check out the `dataTXT-NEX documentation on dandelion.eu`_ for more information
-about what can be done with NEX.
+about what can be done with NEX (in particular see the ``top_entities`` parameter!).
 
 
 SIM: Text Similarity

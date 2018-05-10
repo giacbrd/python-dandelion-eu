@@ -1,10 +1,10 @@
-""" classes for querying the Sentiment family
+""" classes for querying the Sentiment API
 """
 from dandelion.base import BaseDandelionRequest, DandelionException
 
 
 class Sentiment(BaseDandelionRequest):
-    """ class for accessing the Sentiment family
+    """ class for accessing the Sentiment API
         """
     def sent(self, text, lang=None, **params):
         if lang is not None and lang not in ['en', 'it', 'auto']:
