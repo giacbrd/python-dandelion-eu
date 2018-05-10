@@ -1,7 +1,6 @@
 """ classes for querying the dataTXT family
 """
-from dandelion.base import BaseDandelionRequest
-from dandelion.base import DandelionException
+from dandelion.base import BaseDandelionRequest, DandelionException
 
 
 class DataTXT(BaseDandelionRequest):
@@ -11,7 +10,7 @@ class DataTXT(BaseDandelionRequest):
         if top_entities is not None and (not isinstance(top_entities, (int, long)) or top_entities < 0):
             raise DandelionException('The \'top-entities\' parameter must be an integer greater than or equal to 0')
 
-        if min_confidence is not None and (not isinstance(min_confidence,float) or min_confidence < 0.0 or min_confidence > 1.0):
+        if min_confidence is not None and (not isinstance(min_confidence, float) or min_confidence < 0.0 or min_confidence > 1.0):
             raise DandelionException('The \'top-entities\' parameter must be a float between 0.0 and 1.0')
 
         return self.do_request(
