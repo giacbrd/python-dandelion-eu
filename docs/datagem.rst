@@ -9,7 +9,8 @@ Get entities
 Retrieving entities from dandelion is easy, just instantiate a datagem and iterate; pagination is implemented automatically for you, so don't worry and just get data::
 
     >>> from dandelion import Datagem
-    >>> d = Datagem('administrative-regions')
+    >>> d = Datagem('administrative-regions',
+    ...             token='7682xxxxxeh2nb2v2mxxxxxxxjh9sbxxxx')
     >>> for obj in d.items[:10]:
     ...     print(obj.acheneID)
     ...
@@ -31,7 +32,8 @@ Select fields
 If you want to reduce the network load, you can retrieve only the fields you will actually use with ``select``::
 
     >>> from dandelion import Datagem
-    >>> d = Datagem('administrative-regions')
+    >>> d = Datagem('administrative-regions',
+    ...             token='7682xxxxxeh2nb2v2mxxxxxxxjh9sbxxxx')
     >>> for obj in d.items.select('acheneID')[:10]:
     ...     print(obj)
     ...

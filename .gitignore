@@ -40,3 +40,6 @@ htmlcov
 coverage.xml
 
 docs/_build
+
+# Virtual Environment
+venv/

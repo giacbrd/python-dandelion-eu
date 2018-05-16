@@ -1,7 +1,7 @@
 .. image:: https://travis-ci.org/SpazioDati/python-dandelion-eu.png?branch=develop
   :target: https://travis-ci.org/SpazioDati/python-dandelion-eu
 
-.. image:: https://coveralls.io/repos/SpazioDati/python-dandelion-eu/badge.png?branch=develop
+.. image:: https://coveralls.io/repos/SpazioDati/python-dandelion-eu/badge.png?branch=master
   :target: https://coveralls.io/r/SpazioDati/python-dandelion-eu?branch=develop
 
 ..
@@ -16,13 +16,28 @@
 
 .. _PyPI: https://pypi.python.org/pypi/dandelion-eu/
 .. _ReadTheDocs: http://python-dandelion-eu.readthedocs.org/
-
+.. _dandelion: https://dandelion.eu/accounts/register/?next=/
+.. _dandelion.eu: http://dandelion.eu/
 
 python-dandelion-eu
 ===================
 
-Connect to the dandelion.eu API in a very pythonic way!
+Bring the power of the dandelion.eu_ Datagem, DataTXT and Sentiment API to your python applications and scripts!
+Semantic in python couldn't be easier.
 
+
+.. code-block:: py
+
+    >>> from dandelion import DataTXT
+    >>> datatxt = DataTXT(token='YOUR_TOKEN')
+    >>> response = datatxt.nex('The doctor says an apple is better than an orange')
+    >>> for annotation in response.annotations:
+          print annotation
+    ...
+
+Register on dandelion_ to obtain your authentication token and enrich your application with our semantic intelligence.
+
+NOTE: the client still supports the legacy authentication system through ``app_id`` and ``app_key``.
 
 Installation
 ------------

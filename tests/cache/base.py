@@ -1,6 +1,5 @@
 import json
 
-from mock import MagicMock
 from unittest import TestCase
 
 from dandelion.base import BaseDandelionRequest

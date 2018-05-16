@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 import warnings
 
-from dandelion.base import DandelionException, BaseDandelionRequest
+from dandelion.base import BaseDandelionRequest, DandelionException
 
 
 class Datagem(BaseDandelionRequest):
@@ -72,7 +72,11 @@ class DatagemManager(object):
             raise DandelionException('The requested item does not exist')
 
     def select(self, *args):
-        self.params['$select'] = ','.join(args)
+        if '$select' not in self.params or self.params['$select'] == '':
+            self.params['$select'] = ','.join(args)
+        elif args:
+            self.params['$select'] = self.params['$select']+','+(','.join(args))
+
         if any(param.startswith('count(') for param in args):
             self.params['$group'] = ','.join(
                 param for param in args if not param.startswith('count(')

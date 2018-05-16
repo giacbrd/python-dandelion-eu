@@ -28,3 +28,4 @@ Contents
    base
    datatxt
    datagem
+   sentiment
