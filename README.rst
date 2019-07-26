@@ -4,25 +4,36 @@
 .. image:: https://coveralls.io/repos/SpazioDati/python-dandelion-eu/badge.png?branch=develop
   :target: https://coveralls.io/r/SpazioDati/python-dandelion-eu?branch=develop
 
-..
-    image:: https://pypip.in/v/dandelion-eu/badge.png
+.. image:: https://pypip.in/v/dandelion-eu/badge.png
     :target: https://crate.io/packages/dandelion-eu/
     :alt: Latest PyPI version
 
-..
-    image:: https://pypip.in/d/dandelion-eu/badge.png
+.. image:: https://pypip.in/d/dandelion-eu/badge.png
     :target: https://crate.io/packages/dandelion-eu/
     :alt: Number of PyPI downloads
 
 .. _PyPI: https://pypi.python.org/pypi/dandelion-eu/
 .. _ReadTheDocs: http://python-dandelion-eu.readthedocs.org/
-
+.. _dandelion: https://dandelion.eu/accounts/register/?next=/
+.. _dandelion.eu: http://dandelion.eu/
 
 python-dandelion-eu
 ===================
 
-Connect to the dandelion.eu API in a very pythonic way!
+Bring the power of the dandelion.eu_ semantic and datagem API to your python applications and scripts!
+Semantic in python couldn't be easier.
 
+
+.. code-block:: py
+
+    >>> from dandelion import DataTXT
+    >>> datatxt = DataTXT(app_id='YOUR_APP_ID', app_key='YOUR_APP_KEY')
+    >>> response = datatxt.nex('The doctor says an apple is better than an orange')
+    >>> for annotation in response.annotations:
+          print annotation
+    ...
+
+Register on dandelion_ to obtain your authentication keys and enrich your application with our semantic intelligence.
 
 Installation
 ------------

@@ -22,7 +22,7 @@ class DandelionConfig(dict):
         super(DandelionConfig, self).__setitem__(key, value)
 
 
-class DandelionException(BaseException):
+class DandelionException(Exception):
     error = True
 
     def __init__(self, dandelion_obj=None, **kwargs):
