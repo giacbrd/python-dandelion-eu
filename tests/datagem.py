@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import os
+import unittest
 import warnings
 from unittest import TestCase
 from datetime import datetime
@@ -9,6 +10,7 @@ from dandelion import Datagem, default_config, DandelionException
 from dandelion.datagem import DatagemManager
 
 
+@unittest.skip("Datagem seems not supported on Dandelion anymore")
 class TestDatagemBase(TestCase):
     def setUp(self):
         default_config['app_id'] = os.environ['APP_ID']
@@ -20,6 +22,7 @@ class TestDatagemBase(TestCase):
         return 'http://dandelion.eu/resource/{}'.format(achene_id)
 
 
+@unittest.skip("Datagem seems not supported on Dandelion anymore")
 class TestDatagem(TestDatagemBase):
     def test_select(self):
         for item in self.datagem.items.select('name').where(
@@ -245,6 +248,7 @@ class TestDatagem(TestDatagemBase):
         self.assertLess((datetime.now() - now).total_seconds(), 0.01)
 
 
+@unittest.skip("Datagem seems not supported on Dandelion anymore")
 class TestDeprecatedCode(TestDatagemBase):
     def test_objects(self):
         with warnings.catch_warnings(record=True) as warn:
