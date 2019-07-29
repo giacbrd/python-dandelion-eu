@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/SpazioDati/python-dandelion-eu.png?branch=develop
-  :target: https://travis-ci.org/SpazioDati/python-dandelion-eu
+.. image:: https://travis-ci.org/giacbrd/python-dandelion-eu.svg?branch=develop
+  :target: https://travis-ci.org/giacbrd/python-dandelion-eu
 
 .. image:: https://coveralls.io/repos/SpazioDati/python-dandelion-eu/badge.png?branch=develop
   :target: https://coveralls.io/r/SpazioDati/python-dandelion-eu?branch=develop
