@@ -18,9 +18,9 @@ setup(
     description='Connect to the dandelion.eu API in a very pythonic way!',
     long_description=readme,
     author='SpazioDati s.r.l.',
-    author_email='parmesan@spaziodati.eu',
-    url='https://github.com/SpazioDati/python-dandelion-eu',
-    download_url='https://github.com/SpazioDati/'
+    author_email='berardi@spaziodati.eu',
+    url='https://github.com/giacbrd/python-dandelion-eu',
+    download_url='https://github.com/giacbrd/'
                  'python-dandelion-eu/tarball/' + __version__,
     keywords=['api', 'dandelion'],
     install_requires=[
@@ -28,7 +28,7 @@ setup(
         'six',
     ],
     classifiers=(
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Beta',
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'Programming Language :: Python',

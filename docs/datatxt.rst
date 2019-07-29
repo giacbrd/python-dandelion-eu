@@ -13,16 +13,15 @@ dataTXT is a family of semantic services developed by SpazioDati_. All its
 methods are available in the same class::
 
    >>> from dandelion import DataTXT
-   >>> datatxt = DataTXT(app_id='', app_key='')
+   >>> datatxt = DataTXT(token='')
 
 
 NEX: Named Entity Extraction
 ----------------------------
 dataTXT-NEX is a named entity extraction & linking API that performs very well
-even on short texts, on which many other similar services do not. dataTXT-NEX
-currently works on Italian and English texts. With this API you will be able
-to automatically tag your texts, extracting Wikipedia entities and enriching
-your data.
+even on short texts, on which many other similar services do not.
+With this API you will be able to automatically tag your texts,
+extracting Wikipedia entities and enriching your data.
 
 You can extract annotated entities with::
 
