@@ -30,7 +30,7 @@ Semantic in python couldn't be easier.
     >>> datatxt = DataTXT(token='YOUR_TOKEN')
     >>> response = datatxt.nex('The doctor says an apple is better than an orange')
     >>> for annotation in response.annotations:
-          print annotation
+          print(annotation)
     ...
 
 Register on dandelion_ to obtain your authentication token and enrich your application with our semantic intelligence.
