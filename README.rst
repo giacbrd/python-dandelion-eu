@@ -20,7 +20,7 @@
 python-dandelion-eu
 ===================
 
-Bring the power of the dandelion.eu_ semantic and datagem API to your python applications and scripts!
+Bring the power of the dandelion.eu_ semantic to your python applications and scripts!
 Semantic in python couldn't be easier.
 
 

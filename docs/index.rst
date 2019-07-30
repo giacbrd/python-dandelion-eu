@@ -27,4 +27,3 @@ Contents
 
    base
    datatxt
-   datagem
