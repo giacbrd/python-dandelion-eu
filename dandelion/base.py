@@ -88,6 +88,7 @@ class BaseDandelionRequest(object):
             response = self.cache.get(cache_key)
         else:
             response = self._do_raw_request(url, params, method, **kwargs)
+            response.raise_for_status()
             if response.ok:
                 self.cache.set(cache_key, response)
 
