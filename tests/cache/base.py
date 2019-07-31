@@ -14,6 +14,9 @@ class FakeResponse(object):
     def json(self, **kwargs):
         return json.loads(self.content, **kwargs)
 
+    def raise_for_status(self):
+        pass
+
 
 class FakeDandelionRequest(BaseDandelionRequest):
     REQUIRE_AUTH = False
