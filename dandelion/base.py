@@ -2,8 +2,6 @@
 """
 from __future__ import unicode_literals
 
-from requests import RequestException
-
 try:
     import urlparse
 except ImportError:
@@ -74,6 +72,7 @@ class BaseDandelionRequest(object):
                 raise MissingParameterException("token")
 
     def do_request(self, params, extra_url='', method='post', **kwargs):
+        from requests import RequestException
         if self.REQUIRE_AUTH:
             if self.token:
                 params['token'] = self.token
