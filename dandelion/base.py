@@ -1,6 +1,9 @@
 """ base classes
 """
 from __future__ import unicode_literals
+
+from requests import RequestException
+
 try:
     import urlparse
 except ImportError:
@@ -87,10 +90,13 @@ class BaseDandelionRequest(object):
         if self.cache.contains_key(cache_key):
             response = self.cache.get(cache_key)
         else:
-            response = self._do_raw_request(url, params, method, **kwargs)
-            response.raise_for_status()
-            if response.ok:
-                self.cache.set(cache_key, response)
+            response = None
+            try:
+                response = self._do_raw_request(url, params, method, **kwargs)
+                if response.ok:
+                    self.cache.set(cache_key, response)
+            except RequestException as e:
+                raise DandelionException(e, response=response)
 
         obj = response.json(object_hook=AttributeDict)
         if not response.ok:
