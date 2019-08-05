@@ -9,18 +9,26 @@ class DataTXT(BaseDandelionRequest):
     def nex(self, text='', **params):
         if 'min_confidence' not in params:
             params['min_confidence'] = 0.6
+        if text:
+            params['text'] = text
         return self.do_request(
-            dict(params, text=text), ('nex', 'v1')
+            params, ('nex', 'v1')
         )
 
     def sim(self, text1='', text2='', **params):
+        if text1:
+            params['text1'] = text1
+        if text2:
+            params['text2'] = text2
         return self.do_request(
-            dict(params, text1=text1, text2=text2), ('sim', 'v1')
+            params, ('sim', 'v1')
         )
 
     def li(self, text='', **params):
+        if text:
+            params['text'] = text
         return self.do_request(
-            dict(params, text=text), ('li', 'v1')
+            params, ('li', 'v1')
         )
 
     def _get_uri_tokens(self):
