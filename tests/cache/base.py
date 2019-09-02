@@ -1,6 +1,5 @@
 import json
 
-from mock import MagicMock
 from unittest import TestCase
 
 from dandelion.base import BaseDandelionRequest
@@ -14,6 +13,9 @@ class FakeResponse(object):
 
     def json(self, **kwargs):
         return json.loads(self.content, **kwargs)
+
+    def raise_for_status(self):
+        pass
 
 
 class FakeDandelionRequest(BaseDandelionRequest):

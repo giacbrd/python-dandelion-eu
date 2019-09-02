@@ -1,6 +1,7 @@
 """ base classes
 """
 from __future__ import unicode_literals
+
 try:
     import urlparse
 except ImportError:
@@ -14,7 +15,7 @@ class DandelionConfig(dict):
     """ class for storing the default dandelion configuration, such
      as authentication parameters
     """
-    ALLOWED_KEYS = ['app_id', 'app_key']
+    ALLOWED_KEYS = ['token', 'app_id', 'app_key']
 
     def __setitem__(self, key, value):
         if not key in self.ALLOWED_KEYS:
@@ -55,20 +56,29 @@ class BaseDandelionRequest(object):
         import requests
         from dandelion import default_config
         self.uri = self._get_uri(host=kwargs.get('host'))
+        self.token = kwargs.get('token', default_config.get('token'))
         self.app_id = kwargs.get('app_id', default_config.get('app_id'))
         self.app_key = kwargs.get('app_key', default_config.get('app_key'))
         self.requests = requests.session()
         self.cache = kwargs.get('cache', NoCache())
 
-        if self.REQUIRE_AUTH and not self.app_id:
-            raise MissingParameterException("app_id")
-        if self.REQUIRE_AUTH and not self.app_key:
-            raise MissingParameterException("app_key")
+        if self.REQUIRE_AUTH and not self.token:
+            if self.app_id or self.app_key:
+                if self.REQUIRE_AUTH and not self.app_id:
+                    raise MissingParameterException("app_id")
+                if self.REQUIRE_AUTH and not self.app_key:
+                    raise MissingParameterException("app_key")
+            else:
+                raise MissingParameterException("token")
 
     def do_request(self, params, extra_url='', method='post', **kwargs):
+        from requests import RequestException
         if self.REQUIRE_AUTH:
-            params['$app_id'] = self.app_id
-            params['$app_key'] = self.app_key
+            if self.token:
+                params['token'] = self.token
+            else:
+                params['$app_id'] = self.app_id
+                params['$app_key'] = self.app_key
 
         url = self.uri + ''.join('/' + x for x in extra_url)
 
@@ -79,9 +89,13 @@ class BaseDandelionRequest(object):
         if self.cache.contains_key(cache_key):
             response = self.cache.get(cache_key)
         else:
-            response = self._do_raw_request(url, params, method, **kwargs)
-            if response.ok:
-                self.cache.set(cache_key, response)
+            response = None
+            try:
+                response = self._do_raw_request(url, params, method, **kwargs)
+                if response.ok:
+                    self.cache.set(cache_key, response)
+            except RequestException as e:
+                raise DandelionException(e, response=response)
 
         obj = response.json(object_hook=AttributeDict)
         if not response.ok:

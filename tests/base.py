@@ -44,13 +44,13 @@ class TestDefaultConfiguration(TestCase):
         with self.assertRaises(DandelionException) as context:
             Datagem('administrative-regions')
         self.assertEqual(
-            context.exception.message, 'Param "app_id" is required'
+            context.exception.message, 'Param "token" is required'
         )
 
         with self.assertRaises(DandelionException) as context:
             DataTXT()
         self.assertEqual(
-            context.exception.message, 'Param "app_id" is required'
+            context.exception.message, 'Param "token" is required'
         )
 
         default_config['app_id'] = os.environ['APP_ID']
@@ -103,7 +103,7 @@ class TestBaseClass(TestCase):
             self._make_class(require_auth=True, implement_abstract=True)()
 
         self.assertEqual(
-            context.exception.message, 'Param "app_id" is required'
+            context.exception.message, 'Param "token" is required'
         )
 
         obj = self._make_class(require_auth=True, implement_abstract=True)(

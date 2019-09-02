@@ -10,26 +10,25 @@ For specific documentation on each service, please refer to their page.
 Authentication
 --------------
 Most (all?) of the dandelion.eu_ services require authentication. You can
-find your authentication keys on your dashboard_ and pass them to the class
+find your authentication token on your dashboard_ and pass them to the class
 constructor, for example::
 
-    >>> from dandelion import Datagem
-    >>> administrative_regions = Datagem('administrative-regions',
-    ...                                  app_id='24cxxxx',
-    ...                                  app_key='8697xxxx8b99xxxxeecbxxxxb163xxxx')
+    >>> from dandelion import DataTXT
+    >>> administrative_regions = DataTXT(token='8697xxxx8b99xxxxeecbxxxxb163xxxx')
 
 
 If you need to instantiate more services, you can specify your authentication
-keys just once using ``dandelion.default_config``::
+token just once using ``dandelion.default_config``::
 
     >>> from dandelion import default_config
-    >>> default_config['app_id'] = '24cxxxx'
-    >>> default_config['app_key'] = '8697xxxx8b99xxxxeecbxxxxb163xxxx'
+    >>> default_config['token'] = '8697xxxx8b99xxxxeecbxxxxb163xxxx'
 
-    >>> from dandelion import DataTXT, Datagem
+    >>> from dandelion import DataTXT
     >>> datatxt = DataTXT()
-    >>> administrative_regions = Datagem('administrative-regions')
 
+
+The old authentication system by `app_id` and `app_key` does not work anymore,
+but it is still possible to use these parameters by setting the token value on both.
 
 Caching your queries
 --------------------
