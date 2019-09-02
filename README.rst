@@ -1,8 +1,8 @@
-.. image:: https://travis-ci.org/giacbrd/python-dandelion-eu.svg?branch=develop
+.. image:: https://travis-ci.org/giacbrd/python-dandelion-eu.svg?branch=master
   :target: https://travis-ci.org/giacbrd/python-dandelion-eu
 
-.. image:: https://coveralls.io/repos/SpazioDati/python-dandelion-eu/badge.png?branch=develop
-  :target: https://coveralls.io/r/SpazioDati/python-dandelion-eu?branch=develop
+.. image:: https://coveralls.io/repos/SpazioDati/python-dandelion-eu/badge.png?branch=master
+  :target: https://coveralls.io/r/SpazioDati/python-dandelion-eu?branch=master
 
 .. image:: https://img.shields.io/pypi/v/dandelion-eu
     :target: https://pypi.python.org/pypi/dandelion-eu/
