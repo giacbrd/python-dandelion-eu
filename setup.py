@@ -33,9 +33,9 @@ setup(
     ],
     classifiers=(
         'Intended Audience :: Developers',
-        'Scientific/Engineering :: Artificial Intelligence',
-        'Scientific/Engineering :: Information Analysis',
-        'Text Processing :: Linguistic',
+        'Topic :: Scientific/Engineering :: Artificial Intelligence',
+        'Topic :: Scientific/Engineering :: Information Analysis',
+        'Topic :: Text Processing :: Linguistic',
         'Natural Language :: English',
         'Natural Language :: Italian',
         'Natural Language :: Spanish',
