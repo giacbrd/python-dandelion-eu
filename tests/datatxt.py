@@ -43,6 +43,11 @@ class TestDatatxt(TestCase):
 
         self.assertGreater(res.detectedLangs[0].confidence, 0.9999)
 
+    def test_sent(self):
+        res = self.datatxt.sent("I really love your APIs")
+
+        self.assertEqual(res.sentiment.score, 0.9)
+
     def test_raises_on_error(self):
         with self.assertRaises(DandelionException):
             self.datatxt.nex(text=None)

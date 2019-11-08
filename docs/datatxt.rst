@@ -80,3 +80,21 @@ You can identify the language of a text with::
      'timestamp': '2042-01-01T01:02:03'}
 
 Check out the `dataTXT-LI documentation on dandelion.eu`_.
+
+
+SENT: Sentiment Analysis
+---------------------------
+dataTXT-SENT is a sentiment analysis API that analyses a text and tells whether the expressed opinion is positive, negative, or neutral. Given a short sentence, it returns a label representing the identified sentiment, along with a numeric score ranging from strongly positive (1.0) to extremely negative (-1.0).
+
+You can identify the sentiment of a text with::
+
+    >>> datatxt.sent('I really love your APIs')
+    {"sentiment": {
+        "type": "positive",
+        "score": 0.9
+    },
+    "lang": "en",
+    "time": 0,
+    "timestamp": "2018-10-11T14:45:15.529"}
+
+Check out the `dataTXT-SENT documentation on dandelion.eu`_.

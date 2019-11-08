@@ -31,5 +31,10 @@ class DataTXT(BaseDandelionRequest):
             params, ('li', 'v1')
         )
 
+    def sent(self, text, **params):
+        return self.do_request(
+            dict(params, text=text), ('sent', 'v1')
+        )
+
     def _get_uri_tokens(self):
         return 'datatxt',
