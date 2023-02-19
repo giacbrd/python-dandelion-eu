@@ -1,0 +1,18 @@
+on:
+  pull_request:
+    types:
+      - closed
+#      - synchronize
+  workflow_dispatch:
+
+jobs:
+  release:
+    if: (github.event.pull_request && github.event.pull_request.merged == true) || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Bump version and tag
+        id: bump-version-and-tag
+        uses: ch-robinson-internal/ds-actions/actions/bump-version@master
+        with:
+          version-file: dandelion/__init__.py

@@ -1,0 +1,16 @@
+on:
+  push:
+    branches-ignore:
+      - main
+      - master
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: ${{ github.ref }}
+          base: ${{ github.event.repository.default_branch }}
+          title: Changes related to feature branch ${{ github.ref }}
