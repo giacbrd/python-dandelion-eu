@@ -92,10 +92,10 @@ class BaseDandelionRequest(object):
             response = None
             try:
                 response = self._do_raw_request(url, params, method, **kwargs)
-                if response.ok:
-                    self.cache.set(cache_key, response)
+                response.raise_for_status()
+                self.cache.set(cache_key, response)
             except RequestException as e:
-                raise DandelionException(e, response=response)
+                raise DandelionException(e, response=response) from e
 
         obj = response.json(object_hook=AttributeDict)
         if not response.ok:
